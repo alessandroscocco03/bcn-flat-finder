@@ -12,6 +12,7 @@ si scarta mai un annuncio solo perche' un dato non e' stato estratto):
 }
 """
 import json
+import unicodedata
 from pathlib import Path
 
 CONFIG_PATH = Path(__file__).parent / "config.json"
@@ -21,11 +22,17 @@ def load_config() -> dict:
     return json.loads(CONFIG_PATH.read_text(encoding="utf-8"))
 
 
+def _normalize(text: str) -> str:
+    """Minuscolo + rimozione accenti, cosi' 'Gracia' matcha 'Gràcia'."""
+    decomposed = unicodedata.normalize("NFKD", text.lower())
+    return "".join(c for c in decomposed if not unicodedata.combining(c))
+
+
 def _zone_matches(zone: str | None, zone_list: list[str]) -> bool:
     if not zone:
         return False
-    zone_lower = zone.lower()
-    return any(z.lower() in zone_lower or zone_lower in z.lower() for z in zone_list)
+    zone_norm = _normalize(zone)
+    return any(_normalize(z) in zone_norm or zone_norm in _normalize(z) for z in zone_list)
 
 
 def classify_zone(zone: str | None, zones_cfg: dict) -> str:
@@ -49,8 +56,9 @@ def passes_hard_filters(listing: dict, config: dict) -> tuple[bool, str]:
         return False, f"zona esclusa: {listing.get('zone')}"
 
     price = listing.get("price_eur")
-    if price is not None and (price < search["price_min_eur"] - 100 or price > search["price_max_eur"] + 150):
-        # margine di tolleranza: alcuni annunci indicano il prezzo "a stanza" o hanno spese escluse
+    if price is not None and price > search["price_max_eur"] + 150:
+        # margine di tolleranza sul massimo (spese extra, ecc). Nessun limite minimo:
+        # un affitto piu' economico del previsto non e' mai un motivo di scarto.
         return False, f"fuori budget: {price}€"
 
     rooms = listing.get("rooms")
