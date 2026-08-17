@@ -1,1 +1,5 @@
 secrets.json
+all_listings.json
+filtered.json
+idealista_listings.json
+__pycache__/
