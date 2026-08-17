@@ -1,0 +1,29 @@
+{
+  "search": {
+    "city": "Barcelona",
+    "min_bedrooms": 2,
+    "max_bedrooms": 3,
+    "requires_common_area": true,
+    "max_size_m2": null,
+    "price_min_eur": 900,
+    "price_max_eur": 1300,
+    "move_in_earliest": "2026-09-01",
+    "move_in_latest": "2026-09-15",
+    "contract_min_months": 6,
+    "contract_max_months": 12,
+    "furnished_required": true
+  },
+  "zones": {
+    "excluded": ["Ciutat Vella", "Raval", "El Raval", "Gotic", "Barri Gotic", "Born", "El Born", "Sant Pere"],
+    "preferred": ["Sants", "Gracia", "Vila de Gracia", "Poble Sec", "El Clot", "Poblenou", "El Poblenou", "Eixample", "Dreta de l'Eixample", "Esquerra de l'Eixample", "Antiga Esquerra", "Sant Antoni", "Fort Pienc"],
+    "acceptable_low_priority": ["Sarria-Sant Gervasi", "Sant Gervasi", "Sarria", "Zona Alta", "Les Corts", "Pedralbes"]
+  },
+  "amenities": {
+    "washing_machine": { "importance": "very_important_soft_filter" },
+    "dishwasher": { "importance": "nice_to_have" },
+    "air_conditioning": { "importance": "nice_to_have" }
+  },
+  "_note_amenities": "lavatrice/lavastoviglie/AC raramente visibili nella card di ricerca (serve pagina di dettaglio): influenzano solo lo scoring in filter.py, non escludono l'annuncio.",
+  "scoring_priority": ["zone", "livability", "amenities", "price"],
+  "notes": "budget totale per l'appartamento condiviso tra 2 persone, circa 500-650 EUR a testa. Contratto lungo fino a 1 anno va bene, oltre no."
+}
