@@ -16,7 +16,7 @@
   "zones": {
     "excluded": ["Ciutat Vella", "Raval", "El Raval", "Gotic", "Barri Gotic", "Born", "El Born", "Sant Pere"],
     "preferred": ["Sants", "Gracia", "Vila de Gracia", "Poble Sec", "El Clot", "Poblenou", "El Poblenou", "Eixample", "Dreta de l'Eixample", "Esquerra de l'Eixample", "Antiga Esquerra", "Sant Antoni", "Fort Pienc"],
-    "acceptable_low_priority": ["Sarria-Sant Gervasi", "Sant Gervasi", "Sarria", "Zona Alta", "Les Corts", "Pedralbes"]
+    "acceptable_low_priority": ["Sarria-Sant Gervasi", "Sant Gervasi", "Sarria", "Zona Alta", "Les Corts", "Pedralbes", "Hostafrancs", "Camp de l'Arpa", "El Camp de l'Arpa del Clot"]
   },
   "amenities": {
     "washing_machine": { "importance": "very_important_soft_filter" },
