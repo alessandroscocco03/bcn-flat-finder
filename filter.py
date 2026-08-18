@@ -12,6 +12,7 @@ si scarta mai un annuncio solo perche' un dato non e' stato estratto):
 }
 """
 import json
+import re
 import unicodedata
 from pathlib import Path
 
@@ -28,11 +29,23 @@ def _normalize(text: str) -> str:
     return "".join(c for c in decomposed if not unicodedata.combining(c))
 
 
+def _contains_as_phrase(needle: str, haystack: str) -> bool:
+    """Sottostringa ma con bordi di parola, cosi' 'el clot' non matcha per
+    caso dentro '...del clot' (che contiene 'el clot' solo per accostamento)."""
+    if not needle:
+        return False
+    pattern = r"(?<!\w)" + re.escape(needle) + r"(?!\w)"
+    return re.search(pattern, haystack) is not None
+
+
 def _zone_matches(zone: str | None, zone_list: list[str]) -> bool:
     if not zone:
         return False
     zone_norm = _normalize(zone)
-    return any(_normalize(z) in zone_norm or zone_norm in _normalize(z) for z in zone_list)
+    return any(
+        _contains_as_phrase(_normalize(z), zone_norm) or _contains_as_phrase(zone_norm, _normalize(z))
+        for z in zone_list
+    )
 
 
 def classify_zone(zone: str | None, zones_cfg: dict) -> str:
